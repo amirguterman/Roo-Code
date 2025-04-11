@@ -532,6 +532,12 @@ export const globalSettingsSchema = z.object({
 
 	terminalOutputLineLimit: z.number().optional(),
 	terminalShellIntegrationTimeout: z.number().optional(),
+	terminalCommandDelay: z.number().optional(),
+	terminalPowershellCounter: z.boolean().optional(),
+	terminalZshClearEolMark: z.boolean().optional(),
+	terminalZshOhMy: z.boolean().optional(),
+	terminalZshP10k: z.boolean().optional(),
+	terminalZdotdir: z.boolean().optional(),
 
 	rateLimitSeconds: z.number().optional(),
 	diffEnabled: z.boolean().optional(),
@@ -602,6 +608,12 @@ const globalSettingsRecord: GlobalSettingsRecord = {
 
 	terminalOutputLineLimit: undefined,
 	terminalShellIntegrationTimeout: undefined,
+	terminalCommandDelay: undefined,
+	terminalPowershellCounter: undefined,
+	terminalZshClearEolMark: undefined,
+	terminalZshOhMy: undefined,
+	terminalZshP10k: undefined,
+	terminalZdotdir: undefined,
 
 	rateLimitSeconds: undefined,
 	diffEnabled: undefined,
@@ -742,6 +754,7 @@ export const clineSays = [
 	"subtask_result",
 	"checkpoint_saved",
 	"rooignore_error",
+	"diff_error",
 ] as const
 
 export const clineSaySchema = z.enum(clineSays)
