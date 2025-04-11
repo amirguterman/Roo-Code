@@ -264,9 +264,9 @@ export const bedrockModels = {
 	"deepseek.r1-v1:0": {
 		maxTokens: 32_768,
 		contextWindow: 128_000,
-		supportsImages: false,
+		supportsImages: true,
 		supportsComputerUse: true,
-		supportsPromptCache: false,
+		supportsPromptCache: true,
 		inputPrice: 1.35,
 		outputPrice: 5.4,
 	},
