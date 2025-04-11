@@ -28,12 +28,21 @@ export const getComputerPrompt = (modelId: string): string => {
   return CLAUDE_COMPUTER_PROMPT;
 };
 
+// Check if model is DeepSeek R1 (including free version through OpenRouter)
+export const isDeepSeekR1 = (modelId: string): boolean => {
+  return modelId.includes('deepseek-r1') || 
+         modelId.includes('deepseek/deepseek-r1') || 
+         modelId === 'deepseek-reasoner';
+};
+
 // Common security rules that apply to all models
 export const COMPUTER_USE_SECURITY_RULES = {
   allowlistedDomains: [
     'github.com',
     'example.com',
     'localhost',
+    'openrouter.ai',
+    'deepseek.com',
     // other allowed domains...
   ],
   
@@ -48,6 +57,8 @@ export const COMPUTER_USE_SECURITY_RULES = {
   
   blockedOperations: [
     'password_field_interaction',
+    'payment_field_interaction',
+    'credential_storage',
     // other blocked operations...
   ]
 };

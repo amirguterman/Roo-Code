@@ -261,6 +261,10 @@ export async function getOpenRouterModels(options?: ApiHandlerOptions) {
 					modelInfo.cacheReadsPrice = 0.03
 					modelInfo.maxTokens = 8192
 					break
+				case rawModel.id.startsWith("deepseek/deepseek-r1"):
+					modelInfo.supportsComputerUse = true
+					modelInfo.maxTokens = 32_768
+					break
 				default:
 					break
 			}
