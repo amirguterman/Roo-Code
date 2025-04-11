@@ -20,7 +20,7 @@ export const DEEPSEEK_COMPUTER_PROMPT = `You are an automation expert. Respond w
 
 // Helper to get the appropriate prompt based on model
 export const getComputerPrompt = (modelId: string): string => {
-	if (modelId.includes("deepseek") || modelId.includes("dolphin") || modelId.includes("qwen")) {
+	if (modelId.includes("deepseek") || modelId.includes("dolphin") || modelId.includes("qwen") || modelId.includes("gpt-4o")) {
 		return DEEPSEEK_COMPUTER_PROMPT
 	}
 
@@ -45,9 +45,14 @@ export const isQwenModel = (modelId: string): boolean => {
 	return modelId.includes("qwen/qwen-2.5-coder")
 }
 
+// Check if model is GPT-4o
+export const isGPT4oModel = (modelId: string): boolean => {
+	return modelId.includes("gpt-4o")
+}
+
 // Check if model supports computer use through OpenRouter
 export const isOpenRouterComputerUseModel = (modelId: string): boolean => {
-	return isDeepSeekR1(modelId) || isDolphinModel(modelId) || isQwenModel(modelId)
+	return isDeepSeekR1(modelId) || isDolphinModel(modelId) || isQwenModel(modelId) || isGPT4oModel(modelId)
 }
 
 // Common security rules that apply to all models

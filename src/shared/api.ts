@@ -820,6 +820,7 @@ export const openAiNativeModels = {
 		maxTokens: 16_384,
 		contextWindow: 128_000,
 		supportsImages: true,
+		supportsComputerUse: true,
 		supportsPromptCache: true,
 		inputPrice: 2.5,
 		outputPrice: 10,
