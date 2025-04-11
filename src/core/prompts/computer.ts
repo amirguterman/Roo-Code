@@ -20,7 +20,9 @@ export const DEEPSEEK_COMPUTER_PROMPT = `You are an automation expert. Respond w
 
 // Helper to get the appropriate prompt based on model
 export const getComputerPrompt = (modelId: string): string => {
-  if (modelId.includes('deepseek')) {
+  if (modelId.includes('deepseek') || 
+      modelId.includes('dolphin') || 
+      modelId.includes('qwen')) {
     return DEEPSEEK_COMPUTER_PROMPT;
   }
   
@@ -35,6 +37,21 @@ export const isDeepSeekR1 = (modelId: string): boolean => {
          modelId === 'deepseek-reasoner';
 };
 
+// Check if model is Dolphin (through OpenRouter)
+export const isDolphinModel = (modelId: string): boolean => {
+  return modelId.includes('cognitivecomputations/dolphin');
+};
+
+// Check if model is Qwen (through OpenRouter)
+export const isQwenModel = (modelId: string): boolean => {
+  return modelId.includes('qwen/qwen-2.5-coder');
+};
+
+// Check if model supports computer use through OpenRouter
+export const isOpenRouterComputerUseModel = (modelId: string): boolean => {
+  return isDeepSeekR1(modelId) || isDolphinModel(modelId) || isQwenModel(modelId);
+};
+
 // Common security rules that apply to all models
 export const COMPUTER_USE_SECURITY_RULES = {
   allowlistedDomains: [
@@ -43,8 +60,9 @@ export const COMPUTER_USE_SECURITY_RULES = {
     'localhost',
     'openrouter.ai',
     'deepseek.com',
+    'cognitivecomputations.com',
+    'qwen.ai',
     // other allowed domains...
-  ],
   
   requireConfirmation: {
     operations: [

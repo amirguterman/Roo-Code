@@ -1,7 +1,7 @@
-// This file extends the OpenRouter handler to support computer use for DeepSeek R1 (free)
+// This file extends the OpenRouter handler to support computer use for multiple models
 
 import { OpenRouterHandler } from "./openrouter";
-import { getComputerPrompt, isDeepSeekR1 } from "../../core/prompts/computer";
+import { getComputerPrompt, isOpenRouterComputerUseModel } from "../../core/prompts/computer";
 
 export class OpenRouterComputerUseHandler extends OpenRouterHandler {
   // Override to add computer use prompt when needed
@@ -22,8 +22,8 @@ export class OpenRouterComputerUseHandler extends OpenRouterHandler {
   protected override async processResponse(response: string): Promise<any> {
     const model = this.getModel();
     
-    // Check if the model supports computer use and is DeepSeek R1
-    if (model.info.supportsComputerUse && isDeepSeekR1(model.id)) {
+    // Check if the model supports computer use and is one of our supported models
+    if (model.info.supportsComputerUse && isOpenRouterComputerUseModel(model.id)) {
       try {
         // Try to parse JSON from the response
         const jsonResponse = JSON.parse(response);

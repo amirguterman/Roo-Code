@@ -265,6 +265,14 @@ export async function getOpenRouterModels(options?: ApiHandlerOptions) {
 					modelInfo.supportsComputerUse = true
 					modelInfo.maxTokens = 32_768
 					break
+				case rawModel.id.startsWith("cognitivecomputations/dolphin3.0-r1-mistral-24b"):
+					modelInfo.supportsComputerUse = true
+					modelInfo.maxTokens = 24_576
+					break
+				case rawModel.id.startsWith("qwen/qwen-2.5-coder-32b-instruct"):
+					modelInfo.supportsComputerUse = true
+					modelInfo.maxTokens = 32_768
+					break
 				default:
 					break
 			}
