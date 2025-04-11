@@ -265,6 +265,7 @@ export const bedrockModels = {
 		maxTokens: 32_768,
 		contextWindow: 128_000,
 		supportsImages: false,
+		supportsComputerUse: true,
 		supportsPromptCache: false,
 		inputPrice: 1.35,
 		outputPrice: 5.4,
@@ -853,6 +854,7 @@ export const deepSeekModels = {
 		maxTokens: 8192,
 		contextWindow: 64_000,
 		supportsImages: false,
+		supportsComputerUse: true,
 		supportsPromptCache: true,
 		inputPrice: 0.55, // $0.55 per million tokens (cache miss)
 		outputPrice: 2.19, // $2.19 per million tokens
