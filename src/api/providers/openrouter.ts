@@ -263,14 +263,20 @@ export async function getOpenRouterModels(options?: ApiHandlerOptions) {
 					break
 				case rawModel.id.startsWith("deepseek/deepseek-r1"):
 					modelInfo.supportsComputerUse = true
+					modelInfo.supportsImages = true
+					modelInfo.supportsPromptCache = true
 					modelInfo.maxTokens = 32_768
 					break
 				case rawModel.id.startsWith("cognitivecomputations/dolphin3.0-r1-mistral-24b"):
 					modelInfo.supportsComputerUse = true
+					modelInfo.supportsImages = true
+					modelInfo.supportsPromptCache = true
 					modelInfo.maxTokens = 24_576
 					break
 				case rawModel.id.startsWith("qwen/qwen-2.5-coder-32b-instruct"):
 					modelInfo.supportsComputerUse = true
+					modelInfo.supportsImages = true
+					modelInfo.supportsPromptCache = true
 					modelInfo.maxTokens = 32_768
 					break
 				default:
