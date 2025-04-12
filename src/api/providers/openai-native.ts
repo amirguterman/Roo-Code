@@ -92,15 +92,54 @@ export class OpenAiNativeHandler extends BaseProvider implements SingleCompletio
 		systemPrompt: string,
 		messages: Anthropic.Messages.MessageParam[],
 	): ApiStream {
+		const modelInfo = this.getModel().info;
+		const convertedMessages = convertToOpenAiMessages(messages);
+		
+		// Create system message
+		let systemMessage: any = { 
+			role: "system", 
+			content: systemPrompt 
+		};
+		
+		// Handle prompt caching if supported
+		if (modelInfo.supportsPromptCache) {
+			systemMessage = {
+				role: "system",
+				content: [
+					{
+						type: "text",
+						text: systemPrompt,
+						cache_control: { type: "ephemeral" },
+					},
+				],
+			};
+			
+			// Add cache_control to the last two user messages
+			const lastTwoUserMessages = convertedMessages.filter((msg) => msg.role === "user").slice(-2);
+			lastTwoUserMessages.forEach((msg) => {
+				if (typeof msg.content === "string") {
+					msg.content = [{ type: "text", text: msg.content }];
+				}
+				if (Array.isArray(msg.content)) {
+					let lastTextPart = msg.content.filter((part) => part.type === "text").pop();
+					if (!lastTextPart) {
+						lastTextPart = { type: "text", text: "..." };
+						msg.content.push(lastTextPart);
+					}
+					lastTextPart["cache_control"] = { type: "ephemeral" };
+				}
+			});
+		}
+		
 		const stream = await this.client.chat.completions.create({
 			model: modelId,
 			temperature: this.options.modelTemperature ?? OPENAI_NATIVE_DEFAULT_TEMPERATURE,
-			messages: [{ role: "system", content: systemPrompt }, ...convertToOpenAiMessages(messages)],
+			messages: [systemMessage, ...convertedMessages],
 			stream: true,
 			stream_options: { include_usage: true },
-		})
+		});
 
-		yield* this.handleStreamResponse(stream)
+		yield* this.handleStreamResponse(stream);
 	}
 
 	private async *yieldResponseData(response: OpenAI.Chat.Completions.ChatCompletion): ApiStream {
@@ -130,6 +169,8 @@ export class OpenAiNativeHandler extends BaseProvider implements SingleCompletio
 					type: "usage",
 					inputTokens: chunk.usage.prompt_tokens || 0,
 					outputTokens: chunk.usage.completion_tokens || 0,
+					cacheWriteTokens: chunk.usage.cache_creation_input_tokens || 0,
+					cacheReadTokens: chunk.usage.cache_read_input_tokens || 0,
 				}
 			}
 		}
