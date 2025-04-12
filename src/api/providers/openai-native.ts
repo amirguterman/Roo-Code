@@ -109,6 +109,7 @@ export class OpenAiNativeHandler extends BaseProvider implements SingleCompletio
 					{
 						type: "text",
 						text: systemPrompt,
+						// @ts-ignore - cache_control is supported by OpenAI but not in type definitions
 						cache_control: { type: "ephemeral" },
 					},
 				],
@@ -126,6 +127,7 @@ export class OpenAiNativeHandler extends BaseProvider implements SingleCompletio
 						lastTextPart = { type: "text", text: "..." };
 						msg.content.push(lastTextPart);
 					}
+					// @ts-ignore - cache_control is supported by OpenAI but not in type definitions
 					lastTextPart["cache_control"] = { type: "ephemeral" };
 				}
 			});
@@ -169,7 +171,9 @@ export class OpenAiNativeHandler extends BaseProvider implements SingleCompletio
 					type: "usage",
 					inputTokens: chunk.usage.prompt_tokens || 0,
 					outputTokens: chunk.usage.completion_tokens || 0,
+					// @ts-ignore - cache metrics properties are supported by OpenAI but not in type definitions
 					cacheWriteTokens: chunk.usage.cache_creation_input_tokens || 0,
+					// @ts-ignore - cache metrics properties are supported by OpenAI but not in type definitions
 					cacheReadTokens: chunk.usage.cache_read_input_tokens || 0,
 				}
 			}
